@@ -49,7 +49,7 @@ public class SepaTransactionService extends AbstractTransactionService<SepaTrans
     @Override
     protected synchronized Mono<CompanyInfo> updateBalance(CompanyInfo companyInfo, SepaTransaction transaction,
                                                            Mono<List<ExchangeRate>> exchangeRates, boolean isRecipient) {
-        BigDecimal updatedBalance = isRecipient
+        var updatedBalance = isRecipient
                 ? companyInfo.getBalanceEur().add(transaction.amount())
                 : companyInfo.getBalanceEur().subtract(transaction.amount());
 

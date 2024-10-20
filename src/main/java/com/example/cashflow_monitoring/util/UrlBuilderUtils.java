@@ -27,7 +27,7 @@ public class UrlBuilderUtils {
     }
 
     private static void setLimitQueryParam(Integer limit, UriComponentsBuilder builder) {
-        int effectiveLimit = limit != null ? Math.min(limit, DEFAULT_LIMIT_FOR_REQUESTS) : DEFAULT_LIMIT_FOR_REQUESTS;
+        var effectiveLimit = limit != null ? Math.min(limit, DEFAULT_LIMIT_FOR_REQUESTS) : DEFAULT_LIMIT_FOR_REQUESTS;
         builder.queryParam(LIMIT, effectiveLimit);
     }
 
@@ -44,7 +44,7 @@ public class UrlBuilderUtils {
     }
 
     public String buildCompaniesUrl(Integer limit, Integer afterId) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(externalApiBaseUrl)
+        var builder = UriComponentsBuilder.fromHttpUrl(externalApiBaseUrl)
                 .pathSegment(COMPANIES);
         setLimitQueryParam(limit, builder);
         addQueryParamIfPresent(builder, AFTER_ID, afterId);
@@ -52,14 +52,14 @@ public class UrlBuilderUtils {
     }
 
     public String buildExchangeRateUrl() {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(externalApiBaseUrl)
+        var builder = UriComponentsBuilder.fromHttpUrl(externalApiBaseUrl)
                 .pathSegment(EXCHANGE_RATES);
         return builder.toUriString();
     }
 
     private String buildTransactionUrl(String transactionType, TransactionParams transactionParams,
                                        Consumer<UriComponentsBuilder> addQueryParams) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(externalApiBaseUrl)
+        var builder = UriComponentsBuilder.fromHttpUrl(externalApiBaseUrl)
                 .pathSegment(TRANSACTIONS_PATH, transactionType);
         addQueryFromTransactionParams(builder, transactionParams);
         addQueryParams.accept(builder);

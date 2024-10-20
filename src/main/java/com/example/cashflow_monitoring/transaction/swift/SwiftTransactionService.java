@@ -51,7 +51,7 @@ public class SwiftTransactionService extends AbstractTransactionService<SwiftTra
                                                            Mono<List<ExchangeRate>> exchangeRates, boolean isRecipient) {
         return (exchangeRateService.getTotalTransactionAmount(transaction, exchangeRates)
                 .flatMap(amountInEuro -> {
-                    BigDecimal updatedBalance = isRecipient
+                    var updatedBalance = isRecipient
                             ? companyInfo.getBalanceEur().add(amountInEuro)
                             : companyInfo.getBalanceEur().subtract(amountInEuro);
                     companyInfo.setBalanceEur(updatedBalance);

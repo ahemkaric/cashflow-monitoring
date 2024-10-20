@@ -81,7 +81,7 @@ public class TransactionProcessingService {
         }
         allPayerTransactions.addAll(allReceiverTransactions);
         allSenderTransactions.addAll(allBeneficiaryTransactions);
-        TransactionResponseDTO transactionResponseDTO = new TransactionResponseDTO(
+        var transactionResponseDTO = new TransactionResponseDTO(
                 allPayerTransactions, allSenderTransactions
         );
         return Mono.just(transactionResponseDTO);
@@ -151,27 +151,27 @@ public class TransactionProcessingService {
         log.info("Processing all transactions");
         return getTransactionsBatch(sepaAfterTimestamp, sepaAfterUuid, swiftAfterTimestamp, swiftAfterUuid)
                 .flatMap(tuple -> {
-                    List<SepaTransaction> sepaTransactions = tuple.getT1();
-                    List<SwiftTransaction> swiftTransactions = tuple.getT2();
+                    var sepaTransactions = tuple.getT1();
+                    var swiftTransactions = tuple.getT2();
                     log.info("Processing {} sepaTransactions", sepaTransactions.size());
                     log.info("Processing {} swiftTransactions", swiftTransactions.size());
 
-                    Mono<Map<String, Integer>> ibanToCompanyIdMap = ibanToCompanyIdMapCache.getIbanToCompanyIdMap();
+                    var ibanToCompanyIdMap = ibanToCompanyIdMapCache.getIbanToCompanyIdMap();
 
-                    Mono<Void> sepaProcessing = processTransactions(sepaTransactions, sepaTransactionService,
+                    var sepaProcessing = processTransactions(sepaTransactions, sepaTransactionService,
                             exchangeRates, ibanToCompanyIdMap);
-                    Mono<Void> swiftProcessing = processTransactions(swiftTransactions, swiftTransactionService,
+                    var swiftProcessing = processTransactions(swiftTransactions, swiftTransactionService,
                             exchangeRates, ibanToCompanyIdMap);
 
                     return Mono.when(sepaProcessing, swiftProcessing)
                             .then(Mono.defer(() -> {
-                                String newSepaAfterTimestamp = sepaTransactions.isEmpty() ? sepaAfterTimestamp
+                                var newSepaAfterTimestamp = sepaTransactions.isEmpty() ? sepaAfterTimestamp
                                         : String.valueOf(sepaTransactions.get(sepaTransactions.size() - 1).timestamp());
-                                String newSepaAfterUuid = sepaTransactions.isEmpty() ? sepaAfterUuid
+                                var newSepaAfterUuid = sepaTransactions.isEmpty() ? sepaAfterUuid
                                         : String.valueOf(sepaTransactions.get(sepaTransactions.size() - 1).id());
-                                String newSwiftAfterTimestamp = swiftTransactions.isEmpty() ? swiftAfterTimestamp
+                                var newSwiftAfterTimestamp = swiftTransactions.isEmpty() ? swiftAfterTimestamp
                                         : String.valueOf(swiftTransactions.get(swiftTransactions.size() - 1).timestamp());
-                                String newSwiftAfterUuid = swiftTransactions.isEmpty() ? swiftAfterUuid
+                                var newSwiftAfterUuid = swiftTransactions.isEmpty() ? swiftAfterUuid
                                         : String.valueOf(swiftTransactions.get(swiftTransactions.size() - 1).id());
 
                                 return Mono.just(Tuples.of(newSepaAfterTimestamp, newSepaAfterUuid,
@@ -182,7 +182,7 @@ public class TransactionProcessingService {
     }
 
     public Mono<Tuple4<String, String, String, String>> processNewTransactions(Integer limit) {
-        Integer finalLimit = limit == null || limit > 5 ? 5 : limit;
+        var finalLimit = limit == null || limit > 5 ? 5 : limit;
         return Mono.zip(
                         companyInfoService.findTopByOrderByLastSepaTransactionTimestampDesc(),
                         companyInfoService.findTopByOrderByLastSwiftTransactionTimestampDesc()
@@ -190,15 +190,15 @@ public class TransactionProcessingService {
                 .flatMap(tuple -> {
                     CompanyInfo sepa = tuple.getT1();
                     CompanyInfo swift = tuple.getT2();
-                    String sepaAfterTimestamp = sepa.getLastSepaTransactionTimestamp() != null ?
+                    var sepaAfterTimestamp = sepa.getLastSepaTransactionTimestamp() != null ?
                             String.valueOf(sepa.getLastSepaTransactionTimestamp()) : "2000-01-01T00:00:00.000000Z";
-                    String sepaAfterUuid = sepa.getLastSepaTransactionId() != null ?
+                    var sepaAfterUuid = sepa.getLastSepaTransactionId() != null ?
                             String.valueOf(sepa.getLastSepaTransactionId()) : "00000000-0000-0000-0000-000000000000";
-                    String swiftAfterTimestamp = swift.getLastSwiftTransactionId() != null ?
+                    var swiftAfterTimestamp = swift.getLastSwiftTransactionId() != null ?
                             String.valueOf(swift.getLastSwiftTransactionTimestamp()) : "2000-01-01T00:00:00.000000Z";
-                    String swiftAfterUuid = swift.getLastSwiftTransactionId() != null ?
+                    var swiftAfterUuid = swift.getLastSwiftTransactionId() != null ?
                             String.valueOf(swift.getLastSwiftTransactionId()) : "00000000-0000-0000-0000-000000000000";
-                    AtomicInteger attempt = new AtomicInteger();
+                    var attempt = new AtomicInteger();
                     return processAllTransactions(sepaAfterTimestamp, sepaAfterUuid, swiftAfterTimestamp, swiftAfterUuid, finalLimit, attempt);
                 });
     }
@@ -208,10 +208,10 @@ public class TransactionProcessingService {
             String swiftAfterTimestamp, String swiftAfterUuid, Integer limit, AtomicInteger attempt) {
         return processTransactionsBatch(sepaAfterTimestamp, sepaAfterUuid, swiftAfterTimestamp, swiftAfterUuid)
                 .flatMap(result -> {
-                    String newSepaAfterTimestamp = result.getT1();
-                    String newSepaAfterUuid = result.getT2();
-                    String newSwiftAfterTimestamp = result.getT3();
-                    String newSwiftAfterUuid = result.getT4();
+                    var newSepaAfterTimestamp = result.getT1();
+                    var newSepaAfterUuid = result.getT2();
+                    var newSwiftAfterTimestamp = result.getT3();
+                    var newSwiftAfterUuid = result.getT4();
 
                     if (newSepaAfterTimestamp.equals(sepaAfterTimestamp) &&
                             newSepaAfterUuid.equals(sepaAfterUuid) &&
@@ -271,6 +271,5 @@ public class TransactionProcessingService {
                 iban
         );
     }
-
 
 }

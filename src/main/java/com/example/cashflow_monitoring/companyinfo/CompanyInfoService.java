@@ -30,7 +30,7 @@ public class CompanyInfoService {
     }
 
     public Mono<CompanyInfo> getCachedCompanyInfoByCompanyId(Integer companyId) {
-        String cacheKey = CACHE_KEY_PREFIX + companyId.toString();
+        var cacheKey = CACHE_KEY_PREFIX + companyId.toString();
         return redisTemplate.opsForValue()
                 .get(cacheKey)
                 .flatMap(cachedCompanyInfo -> {
@@ -55,7 +55,7 @@ public class CompanyInfoService {
     }
 
     public Mono<CompanyInfo> createCompanyInfoWithCompanyId(Integer companyId) {
-        CompanyInfo companyInfo = new CompanyInfo();
+        var companyInfo = new CompanyInfo();
         companyInfo.setCompanyId(companyId);
         return updateCompanyInfo(companyInfo);
     }
@@ -70,7 +70,7 @@ public class CompanyInfoService {
     }
 
     public Mono<CompanyInfo> updateCompanyInfo(CompanyInfo companyInfo) {
-        String cacheKey = CACHE_KEY_PREFIX + companyInfo.getCompanyId().toString();
+        var cacheKey = CACHE_KEY_PREFIX + companyInfo.getCompanyId().toString();
         return saveCompanyInfo(companyInfo)
                 .flatMap(savedInfo ->
                         redisTemplate
@@ -113,14 +113,14 @@ public class CompanyInfoService {
     public Mono<CompanyInfo> findTopByOrderByLastSwiftTransactionTimestampDesc() {
         return companyInfoRepository.findTopByOrderByLastSwiftTransactionTimestampDesc()
                 .switchIfEmpty(Mono.defer(() -> {
-                    CompanyInfo defaultCompanyInfo = new CompanyInfo();
+                    var defaultCompanyInfo = new CompanyInfo();
                     return Mono.just(defaultCompanyInfo);
                 }));
     }
 
-//    public Mono<Long> evictCache(Integer companyId) {
-//        String cacheKey = CACHE_KEY_PREFIX + companyId;
-//        return redisTemplate.delete(cacheKey);
-//    }
+    public Mono<Long> evictCache(Integer companyId) {
+        var cacheKey = CACHE_KEY_PREFIX + companyId;
+        return redisTemplate.delete(cacheKey);
+    }
 }
 
