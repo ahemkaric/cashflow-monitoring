@@ -37,7 +37,7 @@ public class CompanyClient {
     }
 
     public Mono<List<CompanyDTO>> getCompanies(@Nullable Integer limit, @Nullable Integer afterId) {
-        String url = urlBuilderUtils.buildCompaniesUrl(limit, afterId);
+        var url = urlBuilderUtils.buildCompaniesUrl(limit, afterId);
         return webClient.get()
                 .uri(url)
                 .retrieve()
@@ -59,7 +59,7 @@ public class CompanyClient {
     }
 
     public Mono<CompanyDTO> getCompanyById(Integer companyId) {
-        String url = urlBuilderUtils.buildCompanyUrl(companyId);
+        var url = urlBuilderUtils.buildCompanyUrl(companyId);
         return webClient.get()
                 .uri(url)
                 .retrieve()
@@ -76,7 +76,6 @@ public class CompanyClient {
                 .bodyToMono(CompanyDTO.class)
                 .doOnSuccess(result -> log.info("Successfully fetched company with ID {} from {}", companyId, url))
                 .doOnError(e -> log.error("Failed to fetch company with ID {} from {}", companyId, url, e));
-
     }
 
 }

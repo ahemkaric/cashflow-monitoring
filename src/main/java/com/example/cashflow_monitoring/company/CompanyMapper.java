@@ -23,7 +23,7 @@ public interface CompanyMapper {
         if (ibansString == null || ibansString.isBlank()) {
             return Collections.emptyList();
         }
-        String cleanedIbansString = ibansString
+        var cleanedIbansString = ibansString
                 .replace("[", "")
                 .replace("]", "")
                 .replace("'", "")
@@ -37,7 +37,7 @@ public interface CompanyMapper {
         if (ibans == null || ibans.isEmpty()) {
             return "[]";
         }
-        String quotedIbans = ibans.stream()
+        var quotedIbans = ibans.stream()
                 .map(iban -> "'" + iban + "'")
                 .collect(Collectors.joining(", "));
         return "[" + quotedIbans + "]";
