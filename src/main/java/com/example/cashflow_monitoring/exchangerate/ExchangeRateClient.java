@@ -27,7 +27,7 @@ public class ExchangeRateClient {
     }
 
     public Mono<List<ExchangeRateDTO>> getExchangeRates() {
-        String url = urlBuilderUtils.buildExchangeRateUrl();
+        var url = urlBuilderUtils.buildExchangeRateUrl();
         return webClient.get()
                 .uri(url)
                 .retrieve()

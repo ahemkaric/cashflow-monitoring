@@ -15,7 +15,7 @@ public class RedisConfig {
 
     @Bean
     public ReactiveRedisTemplate<String, CompanyInfo> reactiveRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
-        RedisSerializationContext<String, CompanyInfo> serializationContext = RedisSerializationContext
+        var serializationContext = RedisSerializationContext
                 .<String, CompanyInfo>newSerializationContext(new StringRedisSerializer())
                 .hashKey(new GenericToStringSerializer<>(Integer.class))
                 .hashValue(new Jackson2JsonRedisSerializer<>(CompanyInfo.class))

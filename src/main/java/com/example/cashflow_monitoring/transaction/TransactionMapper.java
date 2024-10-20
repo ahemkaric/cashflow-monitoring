@@ -13,8 +13,4 @@ public interface TransactionMapper<T extends TransactionDTO, R extends Transacti
         return OffsetDateTime.parse(timestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 
-//    default String mapTimestamp(OffsetDateTime timestamp) {
-//        return timestamp.toString();
-//    }
-
 }
