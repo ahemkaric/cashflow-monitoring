@@ -41,7 +41,7 @@ public class CompanyService {
                 .flatMap(companies -> {
                     accumulatedCompanies.addAll(companies);
                     if (companies.size() >= DEFAULT_LIMIT_FOR_REQUESTS) {
-                        Integer lastCompanyId = companies.getLast().id();
+                        var lastCompanyId = companies.getLast().id();
                         return fetchPaginatedCompanies(limit != null ? limit - DEFAULT_LIMIT_FOR_REQUESTS : null,
                                 lastCompanyId, accumulatedCompanies);
                     }

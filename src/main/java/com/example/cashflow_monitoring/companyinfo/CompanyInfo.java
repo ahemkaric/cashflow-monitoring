@@ -97,12 +97,20 @@ public class CompanyInfo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CompanyInfo that = (CompanyInfo) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getCompanyId(), that.getCompanyId()) && Objects.equals(getBalanceEur(), that.getBalanceEur()) && Objects.equals(getLastSepaTransactionId(), that.getLastSepaTransactionId()) && Objects.equals(getLastSepaTransactionTimestamp(), that.getLastSepaTransactionTimestamp()) && Objects.equals(getLastSwiftTransactionId(), that.getLastSwiftTransactionId()) && Objects.equals(getLastSwiftTransactionTimestamp(), that.getLastSwiftTransactionTimestamp()) && Objects.equals(getCountryDetails(), that.getCountryDetails());
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getCompanyId(), that.getCompanyId()) &&
+                Objects.equals(getBalanceEur(), that.getBalanceEur()) &&
+                Objects.equals(getLastSepaTransactionId(), that.getLastSepaTransactionId()) &&
+                Objects.equals(getLastSepaTransactionTimestamp(), that.getLastSepaTransactionTimestamp()) &&
+                Objects.equals(getLastSwiftTransactionId(), that.getLastSwiftTransactionId()) &&
+                Objects.equals(getLastSwiftTransactionTimestamp(), that.getLastSwiftTransactionTimestamp()) &&
+                Objects.equals(getCountryDetails(), that.getCountryDetails());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCompanyId(), getBalanceEur(), getLastSepaTransactionId(), getLastSepaTransactionTimestamp(), getLastSwiftTransactionId(), getLastSwiftTransactionTimestamp(), getCountryDetails());
+        return Objects.hash(getId(), getCompanyId(), getBalanceEur(), getLastSepaTransactionId(), getLastSepaTransactionTimestamp(),
+                getLastSwiftTransactionId(), getLastSwiftTransactionTimestamp(), getCountryDetails());
     }
 
     @Override

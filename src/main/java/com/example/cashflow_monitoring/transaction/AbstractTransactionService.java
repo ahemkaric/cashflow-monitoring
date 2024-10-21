@@ -55,7 +55,7 @@ public abstract class AbstractTransactionService<T extends TransactionDTO, P ext
     @Override
     public Mono<List<R>> getTransactions(P params) {
         validateParams(params);
-        String url = buildTransactionUrl(params);
+        var url = buildTransactionUrl(params);
         return fetchTransactions(url);
     }
 
@@ -91,13 +91,13 @@ public abstract class AbstractTransactionService<T extends TransactionDTO, P ext
     }
 
     private Mono<Void> handlePagination(P params, List<R> accumulatedTransactions, List<R> filteredTransactions) {
-        R lastTransaction = filteredTransactions.getLast();
-        Integer newLimit = Math.max(0, params.limit() - DEFAULT_LIMIT_FOR_REQUESTS);
-        UUID newAfterUuid = lastTransaction.id();
-        OffsetDateTime newAfterTimestamp = lastTransaction.timestamp();
+        var lastTransaction = filteredTransactions.getLast();
+        var newLimit = Math.max(0, params.limit() - DEFAULT_LIMIT_FOR_REQUESTS);
+        var newAfterUuid = lastTransaction.id();
+        var newAfterTimestamp = lastTransaction.timestamp();
 
         if (filteredTransactions.size() >= DEFAULT_LIMIT_FOR_REQUESTS) {
-            P updatedParams = updateParamsWithPagination(params, newLimit, String.valueOf(newAfterUuid),
+            var updatedParams = updateParamsWithPagination(params, newLimit, String.valueOf(newAfterUuid),
                     String.valueOf(newAfterTimestamp));
             return getPaginatedTransactions(updatedParams, accumulatedTransactions);
         }
@@ -125,14 +125,14 @@ public abstract class AbstractTransactionService<T extends TransactionDTO, P ext
 
     private Mono<Void> updateCompanyInfoWithTransaction(Map<String, Integer> ibanCompanyIdMap, R transaction,
                                                         Mono<List<ExchangeRate>> exchangeRates) {
-        Optional<Integer> optionalIssuerCompanyId = Optional.ofNullable(ibanCompanyIdMap.get(transaction.issuer()));
-        Optional<Integer> optionalRecipientCompanyId = Optional.ofNullable(ibanCompanyIdMap.get(transaction.recipient()));
+        var optionalIssuerCompanyId = Optional.ofNullable(ibanCompanyIdMap.get(transaction.issuer()));
+        var optionalRecipientCompanyId = Optional.ofNullable(ibanCompanyIdMap.get(transaction.recipient()));
 
-        Mono<CompanyInfo> issuerCompanyInfo = optionalIssuerCompanyId
+        var issuerCompanyInfo = optionalIssuerCompanyId
                 .map(issuerCompanyId -> updateCompanyInfo(transaction, issuerCompanyId, exchangeRates, false))
                 .orElse(Mono.empty());
 
-        Mono<CompanyInfo> recipientCompanyInfo = optionalRecipientCompanyId
+        var recipientCompanyInfo = optionalRecipientCompanyId
                 .map(recipientCompanyId -> updateCompanyInfo(transaction, recipientCompanyId, exchangeRates, true))
                 .orElse(Mono.empty());
 

@@ -54,7 +54,7 @@ public class CountryDetailService {
         return companyInfoService.getCompanyInfoByCompanyId(companyId)
                 .switchIfEmpty(Mono.error(new NotFoundException("Could not find companyInfo for this CompanyId")))
                 .map(companyInfo -> {
-                    List<CountryDetail> sortedCountryDetails = companyInfo.getCountryDetails().stream()
+                    var sortedCountryDetails = companyInfo.getCountryDetails().stream()
                             .sorted(Comparator.comparingInt(CountryDetail::getNumberOfTransactions).reversed())
                             .toList();
                     companyInfo.setCountryDetails(sortedCountryDetails);
