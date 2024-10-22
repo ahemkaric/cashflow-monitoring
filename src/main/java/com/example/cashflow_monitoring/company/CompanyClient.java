@@ -65,8 +65,7 @@ public class CompanyClient {
                 .retrieve()
                 .onStatus(HttpStatus.NOT_FOUND::equals, response -> {
                     log.error("Company with ID {} not found at {}", companyId, url);
-                    return response.bodyToMono(String.class)
-                            .flatMap(body -> Mono.error(new NotFoundException("Company not found: " + companyId)));
+                    return Mono.error(new NotFoundException("Company not found: " + companyId));
                 })
                 .onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals, response -> {
                     log.error("Server error while fetching company with ID {} from {}", companyId, url);
