@@ -1,7 +1,8 @@
 # Cashflow Monitoring Application
 
-Welcome to the **Cashflow Monitoring Application**, a system designed to help users track, manage, and analyze financial
-transactions efficiently.
+Welcome to the **Cashflow Monitoring Application**, an API designed to efficiently monitor cash flows and 
+financial transactions for different companies in a user-friendly way
+
 
 ## Table of Contents
 
@@ -13,25 +14,27 @@ transactions efficiently.
     - [Configuration](#configuration)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
-- [Todo](#todo)
+- [Roadmap](#roadmap)
 
 ## Features
 
-- **Company Monitoring**: Retrieve detailed information about companies and their associated transactions.
-- **Transaction Management**: Update and manage company-related transactions.
-- **Transaction Types**: Supports both SEPA and SWIFT transactions, with extensibility for future transaction types.
-- **Real-time Exchange Rates**: Fetch and apply real-time exchange rates to transactions automatically.
+- **Cashflow Monitoring**: Access comprehensive details about companies and their financial transactions.
+- **Financial Health Overview**: Delivers an intuitive and comprehensive summary of a company's financial status, including:
+  - The company's current cash balance.
+  - A detailed history of transactions filtered by a user-defined time range.
+  - A breakdown of the countries where the company has the highest and lowest levels of operation.
+- **Real-time Exchange Rates**: Real-time exchange-rate integration from an external API.
 - **Company Info Management**: Store and manage company information for associated transactions.
-- **Scalable and Reactive**: Uses reactive programming (WebFlux) to handle large-scale transaction data efficiently.
+- **Scalable Architecture**: Designed to efficiently process and manage large-scale transaction data.
 
-## Technologies Used
+## Technologies Used    
 
 - **Backend**: Java, Spring Boot
-- **Database**: MongoDB (Reactive)
-- **Reactive Programming**: Webflux (Spring)
-- **API Client**: WebClient (for external API calls)
-- **Caching**: Redis (Reactive)
-- **Testing**: JUnit, Embedded MongoDB (for integration tests)
+- **Database**: MongoDB
+- **Reactive Programming**: Webflux
+- **Caching**: Redis
+- **Testing**: JUnit, Mockito, MockWebServer, Embedded MongoDB
+- **API Documentation**: OpenAPI
 - **Build Tool**: Maven
 
 ## Getting Started
@@ -81,21 +84,24 @@ redis.host=localhost
 
 - After running the application, you can access the API to manage transactions and company information.
 - The application exposes a **Swagger UI** for interactive API documentation, which can be accessed at:
-  `http://localhost:8081/swagger-ui.html`
+  <http://localhost:8081/swagger-ui.html>
 
 ## API Documentation
 
 Refer to the API documentation for detailed information on available endpoints, request formats, and response
 structures.
 
-## TODO
+## Roadmap
 
 Here’s a list of upcoming features and improvements:
 
-- [ ] **Add Unit Tests**: Increase code coverage by adding comprehensive unit tests.
-- [ ] **Improve Error Handling**: Add more granular exception handling and custom error responses.
-- [ ] **Dockerize Application**: Create a Dockerfile and add instructions for containerization.
-- [ ] **Improve Logging**: Use structured logging for better traceability.
+1. **Unit Testing**: Implement comprehensive unit tests.
+2. **Error Handling Improvements**: Enhance exception handling and custom error responses.
+3. **Performance Optimization:**: Analyze and optimize application performance for large data sets.
+4. **Features Improvement**: Refine and enhance existing features for better usability and performance.
+5. **Containerize Application**: Create a containerization setup with instructions.
+6. **Implement CI/CD Pipeline**: Set up continuous integration and deployment for automated testing and deployment.
+7. **Provide Usage Examples**: Add clear and practical examples to demonstrate how to use the application.
 
 **Thank you for checking out the Cashflow Monitoring Application! Feel free to reach out for any questions or
 contributions.**
